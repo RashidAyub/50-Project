@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aether3D - Interactive 3D Weather App</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for weather/UI icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Three.js Canvas Container -->
+    <div id="canvas-container"></div>
+    
+    <!-- Audio Elements for Atmospheric Effects (Soundscapes) -->
+    <audio id="audio-rain" loop src="https://assets.mixkit.co/active_storage/sfx/2448/2448-84.wav"></audio>
+    <audio id="audio-wind" loop src="https://assets.mixkit.co/active_storage/sfx/2534/2534-84.wav"></audio>
+    <audio id="audio-snow" loop src="https://assets.mixkit.co/active_storage/sfx/1188/1188-84.wav"></audio>
+    <audio id="audio-sunny" loop src="https://assets.mixkit.co/active_storage/sfx/1209/1209-84.wav"></audio> <!-- Birds chirping / soft nature -->
+    <audio id="audio-storm" loop src="https://assets.mixkit.co/active_storage/sfx/1657/1657-84.wav"></audio> <!-- Distant thunder/heavy rain -->
+
+    <!-- Ambient UI Audio Toggle Button in top-left -->
+    <div class="audio-control-btn glass-panel" id="sound-toggle-btn" title="Toggle Ambient Weather Sound">
+        <i class="fa-solid fa-volume-xmark"></i>
+        <span>Sound Off</span>
+    </div>
+
+    <!-- UI View Switcher in top-center -->
+    <div class="view-switcher glass-panel">
+        <button class="switcher-btn active" id="view-globe" data-view="globe">
+            <i class="fa-solid fa-globe"></i> 3D Globe
+        </button>
+        <button class="switcher-btn" id="view-diorama" data-view="diorama">
+            <i class="fa-solid fa-cloud-sun"></i> Weather Island
+        </button>
+    </div>
+
+    <!-- App Overlay Shell -->
+    <div class="app-container">
+        
+        <!-- Left Column: Search & Current Weather Glassmorphic HUD -->
+        <aside class="sidebar glass-panel">
+            <header class="search-section">
+                <div class="search-bar">
+                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                    <input type="text" id="city-input" placeholder="Search City..." autocomplete="off">
+                    <button class="search-btn" id="search-submit">
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+                <!-- Autocomplete Dropdown List -->
+                <div class="autocomplete-results" id="autocomplete-list"></div>
+            </header>
+
+            <!-- Current Weather Core Card -->
+            <div class="weather-main-info" id="weather-main-card">
+                <div class="location-header">
+                    <h1 class="city-name" id="display-city">London</h1>
+                    <p class="country-name" id="display-country">United Kingdom</p>
+                </div>
+                
+                <div class="weather-visual">
+                    <div class="weather-icon-container">
+                        <i class="fa-solid fa-cloud-sun" id="weather-main-icon"></i>
+                    </div>
+                    <div class="temp-container">
+                        <span class="temperature" id="display-temp">15</span><span class="unit">°C</span>
+                    </div>
+                </div>
+
+                <div class="weather-summary">
+                    <p class="weather-desc" id="display-condition">Partly Cloudy</p>
+                    <p class="date-time" id="display-time">Local Time: --:--</p>
+                </div>
+            </div>
+
+            <!-- Extra Details Grid -->
+            <div class="weather-details-grid">
+                <div class="detail-card glass-card">
+                    <i class="fa-solid fa-temperature-half detail-icon temp-hi-lo"></i>
+                    <div class="detail-content">
+                        <span class="detail-label">Min / Max</span>
+                        <span class="detail-value" id="detail-temp-range">10 / 18 °C</span>
+                    </div>
+                </div>
+                <div class="detail-card glass-card">
+                    <i class="fa-solid fa-droplet detail-icon humidity"></i>
+                    <div class="detail-content">
+                        <span class="detail-label">Humidity</span>
+                        <span class="detail-value" id="detail-humidity">64 %</span>
+                    </div>
+                </div>
+                <div class="detail-card glass-card">
+                    <i class="fa-solid fa-wind detail-icon wind"></i>
+                    <div class="detail-content">
+                        <span class="detail-label">Wind Speed</span>
+                        <span class="detail-value" id="detail-wind">12 km/h</span>
+                    </div>
+                </div>
+                <div class="detail-card glass-card">
+                    <i class="fa-solid fa-sun detail-icon uv"></i>
+                    <div class="detail-content">
+                        <span class="detail-label">UV Index</span>
+                        <span class="detail-value" id="detail-uv">3.5</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Right / Bottom Column: Forecast & Sandbox Controls -->
+        <main class="main-content">
+            <!-- Sandbox Control Box for direct interaction -->
+            <section class="sandbox-panel glass-panel">
+                <div class="panel-header">
+                    <h2><i class="fa-solid fa-sliders"></i> Weather Simulator</h2>
+                    <p>Manually override environmental conditions</p>
+                </div>
+                <div class="sandbox-controls">
+                    <button class="sandbox-btn active" data-weather="sunny">
+                        <i class="fa-solid fa-sun text-yellow"></i> Sunny
+                    </button>
+                    <button class="sandbox-btn" data-weather="cloudy">
+                        <i class="fa-solid fa-cloud text-gray"></i> Cloudy
+                    </button>
+                    <button class="sandbox-btn" data-weather="rainy">
+                        <i class="fa-solid fa-cloud-showers-heavy text-blue"></i> Rainy
+                    </button>
+                    <button class="sandbox-btn" data-weather="stormy">
+                        <i class="fa-solid fa-cloud-bolt text-purple"></i> Stormy
+                    </button>
+                    <button class="sandbox-btn" data-weather="snowy">
+                        <i class="fa-solid fa-snowflake text-cyan"></i> Snowy
+                    </button>
+                    <button class="sandbox-btn" data-weather="foggy">
+                        <i class="fa-solid fa-smog text-teal"></i> Foggy
+                    </button>
+                </div>
+            </section>
+
+            <!-- 5-Day Forecast Grid -->
+            <section class="forecast-panel glass-panel">
+                <div class="panel-header">
+                    <h2><i class="fa-solid fa-calendar-days"></i> 5-Day Forecast</h2>
+                </div>
+                <div class="forecast-grid" id="forecast-container">
+                    <!-- Forecast items injected dynamically -->
+                    <div class="forecast-card glass-card skeleton">
+                        <div class="skeleton-line"></div>
+                        <div class="skeleton-circle"></div>
+                        <div class="skeleton-line"></div>
+                    </div>
+                    <div class="forecast-card glass-card skeleton">
+                        <div class="skeleton-line"></div>
+                        <div class="skeleton-circle"></div>
+                        <div class="skeleton-line"></div>
+                    </div>
+                    <div class="forecast-card glass-card skeleton">
+                        <div class="skeleton-line"></div>
+                        <div class="skeleton-circle"></div>
+                        <div class="skeleton-line"></div>
+                    </div>
+                    <div class="forecast-card glass-card skeleton">
+                        <div class="skeleton-line"></div>
+                        <div class="skeleton-circle"></div>
+                        <div class="skeleton-line"></div>
+                    </div>
+                    <div class="forecast-card glass-card skeleton">
+                        <div class="skeleton-line"></div>
+                        <div class="skeleton-circle"></div>
+                        <div class="skeleton-line"></div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Details/Instruction Tooltip at bottom -->
+    <div class="instruction-tooltip glass-panel">
+        <i class="fa-solid fa-circle-info"></i>
+        <span>Drag to rotate globe or island. Scroll to zoom. Left click items.</span>
+    </div>
+
+    <!-- Script Imports -->
+    <!-- Three.js (Core) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- OrbitControls -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <!-- GSAP for animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <!-- App Code Modules -->
+    <script src="three-scene.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
