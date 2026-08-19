@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en" class="lenis lenis-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AETHERIA — Cinematic Digital Experience & Spatial Design Studio</title>
+  <meta name="description" content="Aetheria is an award-winning creative studio engineering futuristic digital products, spatial interfaces, and immersive brand universes.">
+  <meta name="theme-color" content="#08080a">
+
+  <!-- Open Graph Meta -->
+  <meta property="og:title" content="AETHERIA — Cinematic Digital Experience">
+  <meta property="og:description" content="Award-winning creative studio engineering futuristic digital products and spatial interfaces.">
+  <meta property="og:type" content="website">
+
+  <!-- Google Fonts: Syne (Ultra modern editorial display) & Plus Jakarta Sans (Clean geometric body) & JetBrains Mono (Tech accents) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,600;1,400&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Syne:wght@400;500;600;700;800&family=Cinzel:wght@400;700;900&display=swap" rel="stylesheet">
+
+  <!-- Lenis CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.18/dist/lenis.css">
+
+  <!-- Core Styles -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="is-loading">
+
+  <!-- Noise Overlay for Film Grain Texture -->
+  <div class="noise-overlay" aria-hidden="true"></div>
+
+  <!-- Ambient Glow Canvas Mesh -->
+  <div class="ambient-glows" aria-hidden="true">
+    <div class="glow-orb glow-1"></div>
+    <div class="glow-orb glow-2"></div>
+    <div class="glow-orb glow-3"></div>
+  </div>
+
+  <!-- Custom Cursor System -->
+  <div class="custom-cursor" id="customCursor" aria-hidden="true">
+    <div class="cursor-dot"></div>
+    <div class="cursor-ring">
+      <div class="cursor-label" id="cursorLabel"></div>
+    </div>
+  </div>
+
+  <!-- 1. PRELOADER -->
+  <div class="preloader" id="preloader" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+    <div class="preloader-curtain" id="preloaderCurtain"></div>
+    <div class="preloader-content">
+      <!-- Monogram SVG Logo -->
+      <div class="preloader-logo-wrap">
+        <svg class="preloader-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle class="svg-circle" cx="50" cy="50" r="45" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" />
+          <circle class="svg-circle-fill" cx="50" cy="50" r="45" stroke="url(#preloaderGrad)" stroke-width="2" stroke-dasharray="283" stroke-dashoffset="283" />
+          <path class="svg-glyph" d="M50 20L76 68H24L50 20Z" stroke="white" stroke-width="1.8" stroke-linejoin="round" />
+          <path class="svg-inner-glyph" d="M50 36L64 62H36L50 36Z" fill="white" fill-opacity="0.9" />
+          <circle cx="50" cy="50" r="3" fill="#00F0FF" />
+          <defs>
+            <linearGradient id="preloaderGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#00F0FF" />
+              <stop offset="50%" stop-color="#7000FF" />
+              <stop offset="100%" stop-color="#FF007A" />
+            </linearGradient>
+          </defs>
+        </svg>
+        <span class="preloader-brand">AETHERIA</span>
+      </div>
+
+      <!-- Live Loading Status Text -->
+      <div class="preloader-status">
+        <span class="status-indicator"></span>
+        <span class="status-text" id="statusText">CALIBRATING SPATIAL ENGINE</span>
+      </div>
+
+      <!-- Counter and Progress Bar -->
+      <div class="preloader-progress-wrap">
+        <div class="preloader-counter" id="preloaderCounter">000</div>
+        <div class="preloader-track">
+          <div class="preloader-bar" id="preloaderBar"></div>
+          <div class="preloader-spark" id="preloaderSpark"></div>
+        </div>
+      </div>
+
+      <div class="preloader-footer">
+        <span>EST. 2026 // TOKYO • NYC • ZURICH</span>
+        <span>EXPERIENCE LEVEL: IMMERSIVE</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. NAVIGATION BAR -->
+  <header class="site-header" id="siteHeader">
+    <nav class="nav-container" aria-label="Main Navigation">
+      <!-- Brand Logo -->
+      <a href="#hero" class="nav-brand magnetic-target" data-cursor="hover">
+        <div class="brand-monogram">
+          <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 6L33 30H7L20 6Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+            <circle cx="20" cy="22" r="2.5" fill="#00F0FF"/>
+          </svg>
+        </div>
+        <span class="brand-name">AETHERIA<span class="brand-dot">.</span></span>
+      </a>
+
+      <!-- Desktop Navigation Menu -->
+      <div class="nav-links-wrap">
+        <ul class="nav-links">
+          <li><a href="#works" class="nav-link magnetic-target" data-cursor="hover">Works</a></li>
+          <li><a href="#about" class="nav-link magnetic-target" data-cursor="hover">Manifesto</a></li>
+          <li><a href="#process" class="nav-link magnetic-target" data-cursor="hover">Protocol</a></li>
+          <li><a href="#services" class="nav-link magnetic-target" data-cursor="hover">Capabilities</a></li>
+          <li><a href="#metrics" class="nav-link magnetic-target" data-cursor="hover">Impact</a></li>
+        </ul>
+      </div>
+
+      <!-- Action Group -->
+      <div class="nav-actions">
+        <!-- Live Timezone Pill -->
+        <div class="nav-timezone d-none-mobile">
+          <span class="pulse-dot"></span>
+          <span class="time-label" id="liveTime">TYO 00:00</span>
+        </div>
+
+        <!-- Magnetic CTA Button -->
+        <a href="#contact" class="btn btn-magnetic btn-primary magnetic-target" data-cursor="hover">
+          <span class="btn-text">Initiate Project</span>
+          <span class="btn-icon">
+            <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3.5 12.5L12.5 3.5M12.5 3.5H5.5M12.5 3.5V10.5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <div class="btn-glow"></div>
+        </a>
+
+        <!-- Hamburger Toggle -->
+        <button class="mobile-toggle magnetic-target" id="mobileToggle" aria-label="Toggle Navigation Menu" data-cursor="hover">
+          <span class="line line-1"></span>
+          <span class="line line-2"></span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Fullscreen Mobile Navigation Drawer -->
+    <div class="mobile-menu" id="mobileMenu">
+      <div class="mobile-menu-backdrop"></div>
+      <div class="mobile-menu-inner">
+        <div class="mobile-menu-header">
+          <span class="menu-tag">// NAVIGATION PROTOCOL</span>
+          <span class="menu-close-label">TOUCH ANYWHERE TO EXIT</span>
+        </div>
+        <ul class="mobile-nav-links">
+          <li class="mobile-item"><a href="#works" class="mobile-link"><span>01</span>Works</a></li>
+          <li class="mobile-item"><a href="#about" class="mobile-link"><span>02</span>Manifesto</a></li>
+          <li class="mobile-item"><a href="#process" class="mobile-link"><span>03</span>Protocol</a></li>
+          <li class="mobile-item"><a href="#services" class="mobile-link"><span>04</span>Capabilities</a></li>
+          <li class="mobile-item"><a href="#metrics" class="mobile-link"><span>05</span>Impact</a></li>
+          <li class="mobile-item"><a href="#contact" class="mobile-link"><span>06</span>Connect</a></li>
+        </ul>
+        <div class="mobile-menu-footer">
+          <div class="mobile-contact-info">
+            <p class="mobile-sub">Direct Inquiries</p>
+            <a href="mailto:hello@aetheria-spatial.io" class="mobile-mail">hello@aetheria-spatial.io</a>
+          </div>
+          <div class="mobile-socials">
+            <a href="#">X / TWITTER</a>
+            <a href="#">INSTAGRAM</a>
+            <a href="#">ARENA</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- SMOOTH SCROLL WRAPPER -->
+  <main id="smooth-wrapper">
+    <div id="smooth-content">
+
+      <!-- 3. HERO SECTION -->
+      <section class="hero-section" id="hero">
+        <div class="hero-grid-bg" aria-hidden="true"></div>
+        
+        <div class="container hero-container">
+          <!-- Hero Header Content -->
+          <div class="hero-content">
+            <!-- Eyebrow Tag -->
+            <div class="hero-eyebrow" data-hero-elem>
+              <div class="eyebrow-badge">
+                <span class="badge-sparkle">✦</span>
+                <span class="badge-text">NEXT-GEN DIGITAL ATELIER</span>
+                <span class="badge-year">2026 // RELEASE 4.0</span>
+              </div>
+              <div class="sound-indicator" id="soundPill">
+                <span class="bar bar-1"></span>
+                <span class="bar bar-2"></span>
+                <span class="bar bar-3"></span>
+                <span class="bar bar-4"></span>
+                <span class="sound-text">AUDIO ACTIVE</span>
+              </div>
+            </div>
+
+            <!-- Massive Headline -->
+            <h1 class="hero-headline" id="heroHeadline">
+              <div class="headline-line"><span class="reveal-text">ARCHITECTS</span> <span class="reveal-text text-dim">OF</span></div>
+              <div class="headline-line"><span class="reveal-text text-gradient">SYNTHETIC</span> <span class="reveal-text">REALITIES</span></div>
+              <div class="headline-line"><span class="reveal-text text-dim">&amp;</span> <span class="reveal-text text-italic font-serif">Spatial Universes</span></div>
+            </h1>
+
+            <!-- Description & Dual CTAs -->
+            <div class="hero-footer-grid" data-hero-elem>
+              <p class="hero-description" data-split-lines>
+                We merge hyper-sensory spatial interaction, generative physics, and architectural typography into digital ecosystems that define luxury brands worldwide.
+              </p>
+
+              <div class="hero-cta-group">
+                <a href="#works" class="btn btn-primary btn-hero magnetic-target" data-cursor="hover">
+                  <span class="btn-text">Explore Showcases</span>
+                  <span class="btn-icon">
+                    <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M8 3V13M8 13L13 8M8 13L3 8" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </span>
+                  <div class="btn-glow"></div>
+                </a>
+
+                <button class="btn btn-secondary btn-hero-video magnetic-target" id="playReelBtn" data-cursor="hover">
+                  <span class="play-ring">
+                    <svg viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M5.5 3.5L12.5 8L5.5 12.5V3.5Z"/>
+                    </svg>
+                  </span>
+                  <span class="btn-text">Watch Showreel (01:42)</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Hero Visual Canvas / 3D Depth Card -->
+          <div class="hero-visual-wrap" id="heroVisualWrap" data-tilt-container>
+            <div class="hero-frame-border"></div>
+            
+            <div class="hero-card-inner" data-tilt-target>
+              <!-- Main Hero High-Res Visual -->
+              <div class="hero-image-box" data-reveal-image>
+                <img 
+                  src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1920&auto=format&fit=crop" 
+                  alt="Futuristic Spatial 3D Art Interface" 
+                  class="hero-img" 
+                  id="heroImg"
+                  loading="eager"
+                >
+                <div class="hero-img-overlay"></div>
+                <div class="hero-img-glare"></div>
+              </div>
+
+              <!-- Floating Interactive HUD Hologram Badges -->
+              <div class="hud-badge hud-top-right magnetic-target" data-parallax-speed="0.25">
+                <div class="hud-header">
+                  <span class="hud-dot"></span>
+                  <span class="hud-code">NEO-PHYSICS V.9</span>
+                </div>
+                <div class="hud-value">120.0 FPS</div>
+                <div class="hud-graph">
+                  <span class="g-bar" style="height:40%"></span>
+                  <span class="g-bar" style="height:75%"></span>
+                  <span class="g-bar" style="height:90%"></span>
+                  <span class="g-bar" style="height:60%"></span>
+                  <span class="g-bar" style="height:100%"></span>
+                </div>
+              </div>
+
+              <div class="hud-badge hud-bottom-left magnetic-target" data-parallax-speed="-0.2">
+                <div class="hud-tag">FEATURED AT AWWWARDS</div>
+                <div class="hud-title">Spatial Studio of Year</div>
+                <div class="hud-stars">✦ ✦ ✦ ✦ ✦</div>
+              </div>
+
+              <div class="hero-scroll-pill">
+                <span class="mouse-icon">
+                  <span class="wheel"></span>
+                </span>
+                <span class="scroll-txt">SCROLL TO UNRAVEL</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section Transition Separator -->
+        <div class="hero-bottom-curve" aria-hidden="true"></div>
+      </section>
+
+      <!-- 14. DUAL INFINITE MARQUEE SECTION -->
+      <section class="marquee-section" aria-label="Studio Pillars Marquee">
+        <div class="marquee-track-wrap track-forward">
+          <div class="marquee-track" id="marqueeTrack1">
+            <div class="marquee-content">
+              <span class="marquee-item"><span class="symbol">✦</span> SPATIAL COMPUTING</span>
+              <span class="marquee-item"><span class="symbol">✦</span> GENERATIVE WORLDS</span>
+              <span class="marquee-item"><span class="symbol">✦</span> HYPER-LUXURY COMMERCE</span>
+              <span class="marquee-item"><span class="symbol">✦</span> KINETIC TYPOGRAPHY</span>
+              <span class="marquee-item"><span class="symbol">✦</span> IMMERSIVE ARCHITECTURE</span>
+              <span class="marquee-item"><span class="symbol">✦</span> NEURAL AUDIO-VISUALS</span>
+            </div>
+            <div class="marquee-content" aria-hidden="true">
+              <span class="marquee-item"><span class="symbol">✦</span> SPATIAL COMPUTING</span>
+              <span class="marquee-item"><span class="symbol">✦</span> GENERATIVE WORLDS</span>
+              <span class="marquee-item"><span class="symbol">✦</span> HYPER-LUXURY COMMERCE</span>
+              <span class="marquee-item"><span class="symbol">✦</span> KINETIC TYPOGRAPHY</span>
+              <span class="marquee-item"><span class="symbol">✦</span> IMMERSIVE ARCHITECTURE</span>
+              <span class="marquee-item"><span class="symbol">✦</span> NEURAL AUDIO-VISUALS</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="marquee-track-wrap track-reverse">
+          <div class="marquee-track" id="marqueeTrack2">
+            <div class="marquee-content">
+              <span class="marquee-item outline-text"><span class="symbol">✧</span> AWWWARDS SITE OF THE DAY</span>
+              <span class="marquee-item outline-text"><span class="symbol">✧</span> FWA OF THE MONTH</span>
+              <span class="marquee-item outline-text"><span class="symbol">✧</span> RED DOT BEST OF THE BEST</span>
+              <span class="marquee-item outline-text"><span class="symbol">✧</span> CANNES LION GOLD 2025</span>
+              <span class="marquee-item outline-text"><span class="symbol">✧</span> D&amp;AD YELLOW PENCIL</span>
+            </div>
+            <div class="marquee-content" aria-hidden="true">
+              <span class="marquee-item outline-text"><span class="symbol">✧</span> AWWWARDS SITE OF THE DAY</span>
+              <span class="marquee-item outline-text"><span class="symbol">✧</span> FWA OF THE MONTH</span>
+              <span class="marquee-item outline-text"><span class="symbol">✧</span> RED DOT BEST OF THE BEST</span>
+              <span class="marquee-item outline-text"><span class="symbol">✧</span> CANNES LION GOLD 2025</span>
+              <span class="marquee-item outline-text"><span class="symbol">✧</span> D&amp;AD YELLOW PENCIL</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 11. SCROLL-BASED TEXT TRANSFORMATION SECTION -->
+      <section class="scrub-transform-section" id="about">
+        <div class="container transform-container">
+          <div class="transform-eyebrow" data-fade-up>
+            <span class="dash">—</span> MANIFESTO 01.0
+          </div>
+          
+          <div class="transform-text-wrapper" id="transformTextWrapper">
+            <h2 class="scrub-title" id="scrubTitle">
+              <span class="scrub-word w-1">WE</span>
+              <span class="scrub-word w-2">TRANSCEND</span>
+              <span class="scrub-word w-3 font-serif text-italic">PHYSICAL</span>
+              <span class="scrub-word w-4 text-glow">LIMITATIONS</span>
+              <span class="scrub-word w-5 text-dim">TO</span>
+              <span class="scrub-word w-6">FORGE</span>
+              <span class="scrub-word w-7 text-gradient">ICONIC</span>
+              <span class="scrub-word w-8">EXPERIENCES</span>
+            </h2>
+          </div>
+
+          <div class="transform-sub-grid">
+            <div class="sub-col" data-fade-up>
+              <div class="metric-tag">OUR PHILOSOPHY</div>
+              <p>Standard websites inform; exceptional digital architectures evoke sensory emotion. We engineer high-frequency web platforms where cinematic motion and raw performance coexist in pure equilibrium.</p>
+            </div>
+            <div class="sub-col" data-fade-up>
+              <div class="metric-tag">THE STANDARD</div>
+              <p>Utilizing proprietary GSAP spatial pipelines, WebGL compute shaders, and micro-precision fluid physics, we turn static screen time into memorable digital landmarks.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 6. HORIZONTAL SCROLL PORTFOLIO SHOWCASE -->
+      <section class="horizontal-section" id="works">
+        <div class="horizontal-header container">
+          <div class="header-left">
+            <span class="section-num">02 // SELECTED ARCHIVES</span>
+            <h2 class="section-title">Selected Masterworks</h2>
+          </div>
+          <div class="header-right">
+            <span class="swipe-hint">SCROLL VERTICALLY TO EXPLORE HORIZONTALLY</span>
+            <div class="horizontal-progress-track">
+              <div class="horizontal-progress-bar" id="horizProgress"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Horizontal Scroll Track Container (Pinned by GSAP) -->
+        <div class="horizontal-pin-wrap" id="horizontalPinWrap">
+          <div class="horizontal-cards-container" id="horizontalCards">
+            
+            <!-- Project Card 01 -->
+            <article class="work-card" data-cursor="EXPLORE" data-tilt-card>
+              <div class="card-inner">
+                <div class="card-media" data-reveal-image>
+                  <img src="https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?q=80&w=1200&auto=format&fit=crop" alt="Project Chronos" class="card-img">
+                  <div class="card-overlay"></div>
+                  <div class="card-badge-floating">AWWWARDS SOTD</div>
+                </div>
+                <div class="card-info">
+                  <div class="card-meta">
+                    <span class="card-index">01 / 05</span>
+                    <span class="card-category">SPATIAL COMPUTING &amp; HARDWARE</span>
+                  </div>
+                  <h3 class="card-title">CHRONOS QUANTUM</h3>
+                  <p class="card-desc">Interactive web terminal and 3D configuration engine for the world's first topological quantum wristwatch.</p>
+                  <div class="card-footer-link">
+                    <span class="link-label">Inspect Case Study</span>
+                    <span class="link-arrow">→</span>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <!-- Project Card 02 -->
+            <article class="work-card" data-cursor="EXPLORE" data-tilt-card>
+              <div class="card-inner">
+                <div class="card-media" data-reveal-image>
+                  <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200&auto=format&fit=crop" alt="Project Solis" class="card-img">
+                  <div class="card-overlay"></div>
+                  <div class="card-badge-floating">FWA OF THE MONTH</div>
+                </div>
+                <div class="card-info">
+                  <div class="card-meta">
+                    <span class="card-index">02 / 05</span>
+                    <span class="card-category">AUTONOMOUS AEROSPACE</span>
+                  </div>
+                  <h3 class="card-title">SOLIS ORBITAL</h3>
+                  <p class="card-desc">Real-time satellite trajectory dashboard with WebGL telemetry visualizations and fluid atmospheric physics.</p>
+                  <div class="card-footer-link">
+                    <span class="link-label">Inspect Case Study</span>
+                    <span class="link-arrow">→</span>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <!-- Project Card 03 -->
+            <article class="work-card" data-cursor="EXPLORE" data-tilt-card>
+              <div class="card-inner">
+                <div class="card-media" data-reveal-image>
+                  <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1200&auto=format&fit=crop" alt="Project Cyberne" class="card-img">
+                  <div class="card-overlay"></div>
+                  <div class="card-badge-floating">RED DOT BEST</div>
+                </div>
+                <div class="card-info">
+                  <div class="card-meta">
+                    <span class="card-index">03 / 05</span>
+                    <span class="card-category">HYPER-LUXURY ARCHITECTURE</span>
+                  </div>
+                  <h3 class="card-title">VALOIS RESIDENCES</h3>
+                  <p class="card-desc">Monolithic editorial digital showroom showcasing ultra-prime penthouses in St. Moritz and Monaco.</p>
+                  <div class="card-footer-link">
+                    <span class="link-label">Inspect Case Study</span>
+                    <span class="link-arrow">→</span>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <!-- Project Card 04 -->
+            <article class="work-card" data-cursor="EXPLORE" data-tilt-card>
+              <div class="card-inner">
+                <div class="card-media" data-reveal-image>
+                  <img src="https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?q=80&w=1200&auto=format&fit=crop" alt="Project Neural" class="card-img">
+                  <div class="card-overlay"></div>
+                  <div class="card-badge-floating">INNOVATION PRIZE</div>
+                </div>
+                <div class="card-info">
+                  <div class="card-meta">
+                    <span class="card-index">04 / 05</span>
+                    <span class="card-category">SYNTHETIC INTELLIGENCE</span>
+                  </div>
+                  <h3 class="card-title">KINETIX LABS AI</h3>
+                  <p class="card-desc">Generative brand identity and real-time audio reactive audio synthesizer for enterprise machine learning.</p>
+                  <div class="card-footer-link">
+                    <span class="link-label">Inspect Case Study</span>
+                    <span class="link-arrow">→</span>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <!-- Project Card 05 -->
+            <article class="work-card" data-cursor="EXPLORE" data-tilt-card>
+              <div class="card-inner">
+                <div class="card-media" data-reveal-image>
+                  <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop" alt="Project Prism" class="card-img">
+                  <div class="card-overlay"></div>
+                  <div class="card-badge-floating">DEV AWARDS 2026</div>
+                </div>
+                <div class="card-info">
+                  <div class="card-meta">
+                    <span class="card-index">05 / 05</span>
+                    <span class="card-category">NEURAL SOUNDSCAPES</span>
+                  </div>
+                  <h3 class="card-title">AURA ACOUSTICS</h3>
+                  <p class="card-desc">Binaural spatial audio exploration platform mapping sound frequencies to dynamic architectural structures.</p>
+                  <div class="card-footer-link">
+                    <span class="link-label">Inspect Case Study</span>
+                    <span class="link-arrow">→</span>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- 12. PINNED STORYTELLING / PROTOCOL SECTION -->
+      <section class="process-section" id="process">
+        <div class="container">
+          <div class="process-header">
+            <span class="section-num">03 // THE PROTOCOL</span>
+            <h2 class="section-title">The Engineering Blueprint</h2>
+            <p class="section-subtitle">How we transform high-ambition concepts into mathematically rigorous digital landmarks.</p>
+          </div>
+
+          <!-- Pinned Multi-Step Container -->
+          <div class="process-pinned-grid" id="processGrid">
+            
+            <!-- Left Sticky Step Counter & Timeline Indicator -->
+            <div class="process-sticky-left">
+              <div class="step-indicator-card">
+                <div class="step-num-display" id="activeStepNum">01</div>
+                <div class="step-phase-tag" id="activeStepTag">PHASE 01 : DISCOVERY</div>
+                <div class="step-timeline-rail">
+                  <div class="step-timeline-fill" id="stepTimelineFill"></div>
+                </div>
+                <div class="step-navigation-pills">
+                  <div class="step-pill active" data-step-target="0">01. Blueprint</div>
+                  <div class="step-pill" data-step-target="1">02. Spatial Physics</div>
+                  <div class="step-pill" data-step-target="2">03. Shader Sculpting</div>
+                  <div class="step-pill" data-step-target="3">04. Deployment</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Scrollable Story Cards -->
+            <div class="process-cards-right">
+              
+              <!-- Story Card 01 -->
+              <div class="story-card" data-step="0">
+                <div class="story-inner">
+                  <div class="story-tag">// 01 — DECONSTRUCTION &amp; BLUEPRINT</div>
+                  <h3 class="story-title">Unraveling the Brand Core</h3>
+                  <p class="story-text">We strip away conventional web clutter to extract the core brand resonance. Mapping sensory touchpoints, typography hierarchies, and audience psychological velocity before a single line of code is written.</p>
+                  <ul class="story-bullets">
+                    <li>✦ Creative Direction &amp; Narrative Architecture</li>
+                    <li>✦ Spatial Layout Blueprinting &amp; Grid Systems</li>
+                    <li>✦ Micro-Interaction Prototyping</li>
+                  </ul>
+                  <div class="story-visual" data-reveal-image>
+                    <img src="https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?q=80&w=900&auto=format&fit=crop" alt="Discovery Blueprint" class="story-img">
+                  </div>
+                </div>
+              </div>
+
+              <!-- Story Card 02 -->
+              <div class="story-card" data-step="1">
+                <div class="story-inner">
+                  <div class="story-tag">// 02 — KINETIC PHYSICS &amp; GSAP CHOREOGRAPHY</div>
+                  <h3 class="story-title">Harmonizing Velocity &amp; Weight</h3>
+                  <p class="story-text">Every scroll velocity, magnetic pull, and text split is tuned using calibrated cubic bezier springs and GSAP ScrollTrigger pipelines. Nothing moves arbitrarily — every motion conveys physical mass and tactile friction.</p>
+                  <ul class="story-bullets">
+                    <li>✦ GSAP Custom Ease &amp; Physics Orchestration</li>
+                    <li>✦ Smooth Lenis Scroll Interpolation</li>
+                    <li>✦ Magnetic &amp; Cursor Dynamic Feedback</li>
+                  </ul>
+                  <div class="story-visual" data-reveal-image>
+                    <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=900&auto=format&fit=crop" alt="Kinetic Physics" class="story-img">
+                  </div>
+                </div>
+              </div>
+
+              <!-- Story Card 03 -->
+              <div class="story-card" data-step="2">
+                <div class="story-inner">
+                  <div class="story-tag">// 03 — SHADER SCULPTING &amp; WEBGL</div>
+                  <h3 class="story-title">Synthetic Dimensions &amp; Light</h3>
+                  <p class="story-text">We craft bespoke fragment shaders, post-processing volumetric bloom, and depth displacement maps to achieve a cinematic atmosphere that typical CSS frameworks simply cannot deliver.</p>
+                  <ul class="story-bullets">
+                    <li>✦ GLSL Custom Shaders &amp; Chromatic Dispersion</li>
+                    <li>✦ Realtime Raymarched Volumetrics</li>
+                    <li>✦ GPU Memory Optimization</li>
+                  </ul>
+                  <div class="story-visual" data-reveal-image>
+                    <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=900&auto=format&fit=crop" alt="Shader Sculpting" class="story-img">
+                  </div>
+                </div>
+              </div>
+
+              <!-- Story Card 04 -->
+              <div class="story-card" data-step="3">
+                <div class="story-inner">
+                  <div class="story-tag">// 04 — GLOBAL SYNCHRONIZATION</div>
+                  <h3 class="story-title">Sub-Millisecond Execution</h3>
+                  <p class="story-text">Performance is luxury. We guarantee 60–120 FPS rendering on high-refresh displays with 100/100 Lighthouse performance, responsive touch physics, and strict accessibility compliance.</p>
+                  <ul class="story-bullets">
+                    <li>✦ Multi-threaded Asset Optimization</li>
+                    <li>✦ Instant Edge CDN Delivery</li>
+                    <li>✦ Cross-Platform Touch Calibrations</li>
+                  </ul>
+                  <div class="story-visual" data-reveal-image>
+                    <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=900&auto=format&fit=crop" alt="Global Sync" class="story-img">
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CAPABILITIES / SERVICES INTERACTIVE ACCORDION GRID -->
+      <section class="services-section" id="services">
+        <div class="container">
+          <div class="services-header">
+            <div>
+              <span class="section-num">04 // DISCIPLINARY STACK</span>
+              <h2 class="section-title">Core Capabilities</h2>
+            </div>
+            <p class="section-subtitle">Comprehensive creative technology solutions tailored for category disruptors.</p>
+          </div>
+
+          <div class="services-list" id="servicesList">
+            
+            <!-- Service Row 01 -->
+            <div class="service-row magnetic-row" data-service-img="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800&auto=format&fit=crop">
+              <div class="service-left">
+                <span class="service-idx">01</span>
+                <h3 class="service-name">Spatial Web &amp; 3D Product Worlds</h3>
+              </div>
+              <div class="service-center">
+                <p>Interactive 3D configurators, WebGL spatial showrooms, and real-time virtual experiences built for browser-based engagement.</p>
+              </div>
+              <div class="service-right">
+                <div class="service-tags">
+                  <span>Three.js</span>
+                  <span>GSAP</span>
+                  <span>GLSL</span>
+                </div>
+                <div class="service-icon-circle">
+                  <span class="s-arrow">↗</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Service Row 02 -->
+            <div class="service-row magnetic-row" data-service-img="https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?q=80&w=800&auto=format&fit=crop">
+              <div class="service-left">
+                <span class="service-idx">02</span>
+                <h3 class="service-name">Cinematic Landing Experiences</h3>
+              </div>
+              <div class="service-center">
+                <p>Award-caliber brand flagship sites engineered with scroll-driven narratives, bespoke typography choreography, and sensory magnetism.</p>
+              </div>
+              <div class="service-right">
+                <div class="service-tags">
+                  <span>Motion Systems</span>
+                  <span>ScrollTrigger</span>
+                  <span>Lenis</span>
+                </div>
+                <div class="service-icon-circle">
+                  <span class="s-arrow">↗</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Service Row 03 -->
+            <div class="service-row magnetic-row" data-service-img="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800&auto=format&fit=crop">
+              <div class="service-left">
+                <span class="service-idx">03</span>
+                <h3 class="service-name">Futuristic Brand Systems &amp; Art</h3>
+              </div>
+              <div class="service-center">
+                <p>Dynamic generative identities, modular design tokens, 3D asset libraries, and scalable cross-media design guidelines.</p>
+              </div>
+              <div class="service-right">
+                <div class="service-tags">
+                  <span>Brand Architecture</span>
+                  <span>Generative Art</span>
+                  <span>3D Motion</span>
+                </div>
+                <div class="service-icon-circle">
+                  <span class="s-arrow">↗</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Service Row 04 -->
+            <div class="service-row magnetic-row" data-service-img="https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?q=80&w=800&auto=format&fit=crop">
+              <div class="service-left">
+                <span class="service-idx">04</span>
+                <h3 class="service-name">High-Velocity Creative Engineering</h3>
+              </div>
+              <div class="service-center">
+                <p>Zero-latency front-end architectures with headless CMS, edge runtime performance, and bulletproof responsive adaptations.</p>
+              </div>
+              <div class="service-right">
+                <div class="service-tags">
+                  <span>Performance</span>
+                  <span>Full-Stack</span>
+                  <span>Edge Architecture</span>
+                </div>
+                <div class="service-icon-circle">
+                  <span class="s-arrow">↗</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Floating Hover Image Preview (Follows Cursor on Service Rows) -->
+          <div class="service-floating-preview" id="serviceFloatingPreview" aria-hidden="true">
+            <img src="" alt="Service Preview" id="servicePreviewImg">
+          </div>
+        </div>
+      </section>
+
+      <!-- 16. NUMBERS & IMPACT STATS SECTION -->
+      <section class="stats-section" id="metrics">
+        <div class="container">
+          <div class="stats-top">
+            <span class="section-num">05 // QUANTIFIED EXCELLENCE</span>
+            <h2 class="section-title">Impact by the Numbers</h2>
+          </div>
+
+          <div class="stats-grid">
+            
+            <div class="stat-card" data-tilt-card>
+              <div class="stat-inner">
+                <div class="stat-header">
+                  <span class="stat-glyph">✦</span>
+                  <span class="stat-category">DEPLOYED PLATFORMS</span>
+                </div>
+                <div class="stat-number-wrap">
+                  <span class="counter-num" data-target="148">0</span>
+                  <span class="counter-suffix">+</span>
+                </div>
+                <div class="stat-label">Global Masterpieces Launched</div>
+                <p class="stat-detail">Across 22 countries with 99.98% uptime and global CDN propagation.</p>
+              </div>
+            </div>
+
+            <div class="stat-card" data-tilt-card>
+              <div class="stat-inner">
+                <div class="stat-header">
+                  <span class="stat-glyph">✧</span>
+                  <span class="stat-category">SATISFACTION INDEX</span>
+                </div>
+                <div class="stat-number-wrap">
+                  <span class="counter-num" data-target="99">0</span>
+                  <span class="counter-suffix">.8%</span>
+                </div>
+                <div class="stat-label">Client Retention &amp; Praise</div>
+                <p class="stat-detail">Consistently rated #1 for engineering finesse and uncompromising aesthetic output.</p>
+              </div>
+            </div>
+
+            <div class="stat-card" data-tilt-card>
+              <div class="stat-inner">
+                <div class="stat-header">
+                  <span class="stat-glyph">◈</span>
+                  <span class="stat-category">ECOSYSTEM VALUE</span>
+                </div>
+                <div class="stat-number-wrap">
+                  <span class="counter-prefix">$</span>
+                  <span class="counter-num" data-target="4">0</span>
+                  <span class="counter-suffix">.6B+</span>
+                </div>
+                <div class="stat-label">Client Valuation Created</div>
+                <p class="stat-detail">Measurable commercial lift and investor magnetism post-experience launch.</p>
+              </div>
+            </div>
+
+            <div class="stat-card" data-tilt-card>
+              <div class="stat-inner">
+                <div class="stat-header">
+                  <span class="stat-glyph">⬡</span>
+                  <span class="stat-category">ACCOLADES &amp; AWARDS</span>
+                </div>
+                <div class="stat-number-wrap">
+                  <span class="counter-num" data-target="42">0</span>
+                  <span class="counter-suffix">🏆</span>
+                </div>
+                <div class="stat-label">International Trophies</div>
+                <p class="stat-detail">Awwwards Site of the Day, FWA, Red Dot Grand Prix, and Webby honors.</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- TESTIMONIAL / EDITORIAL QUOTE CAROUSEL -->
+      <section class="quote-section">
+        <div class="container">
+          <div class="quote-card" data-fade-up>
+            <div class="quote-marks">“</div>
+            <blockquote class="quote-body" data-split-lines>
+              AETHERIA operates on a distinct dimensional plane. Their mastery of GSAP choreography and spatial design turned our product launch into the most talked-about digital event of the quarter.
+            </blockquote>
+            <div class="quote-author-row">
+              <div class="author-avatar">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200&auto=format&fit=crop" alt="Elena Rostova">
+              </div>
+              <div class="author-meta">
+                <div class="author-name">Elena Rostova</div>
+                <div class="author-role">Chief Design Officer, Chronos Global</div>
+              </div>
+              <div class="author-verified">
+                <span class="verified-dot"></span> VERIFIED PARTNER
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 17. OVERSIZED GRAND FOOTER -->
+      <footer class="site-footer" id="contact">
+        <div class="footer-ambient-glow" aria-hidden="true"></div>
+        
+        <div class="container footer-container">
+          
+          <!-- Big Interactive CTA Headline -->
+          <div class="footer-cta-block">
+            <div class="footer-tag" data-fade-up>
+              <span class="pulse-dot"></span> ACCEPTING SELECT COMMISSIONS FOR Q3/Q4 2026
+            </div>
+            
+            <h2 class="footer-headline" id="footerHeadline">
+              <span class="footer-line"><span class="f-word">HAVE</span> <span class="f-word text-dim">A</span> <span class="f-word text-gradient">VISION?</span></span>
+              <span class="footer-line"><span class="f-word font-serif text-italic">Let's Construct</span> <span class="f-word">THE FUTURE.</span></span>
+            </h2>
+
+            <!-- Magnetic Grand Email Button -->
+            <div class="footer-action-wrap" data-fade-up>
+              <a href="mailto:initiatives@aetheria-spatial.io" class="btn-grand-magnetic magnetic-target" data-cursor="CONNECT">
+                <div class="grand-btn-inner">
+                  <span class="grand-label">START A CONVERSATION</span>
+                  <span class="grand-email">initiatives@aetheria-spatial.io</span>
+                </div>
+                <div class="grand-btn-icon">
+                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M7 17L17 7M17 7H9M17 7V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+                <div class="grand-glow"></div>
+              </a>
+            </div>
+          </div>
+
+          <!-- Footer Middle Navigation & Hubs -->
+          <div class="footer-grid">
+            <div class="footer-col brand-col">
+              <div class="footer-brand">
+                <span class="brand-monogram">
+                  <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M16 4L26 24H6L16 4Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                    <circle cx="16" cy="18" r="2" fill="#00F0FF"/>
+                  </svg>
+                </span>
+                <span class="brand-title">AETHERIA STUDIO</span>
+              </div>
+              <p class="footer-mission">
+                Engineering sensory immersion and high-velocity digital architectures for global brands demanding non-standard solutions.
+              </p>
+              <div class="footer-clocks">
+                <div class="clock-item">
+                  <span class="c-city">TOKYO</span>
+                  <span class="c-val" id="clockTyo">18:42 JST</span>
+                </div>
+                <div class="clock-item">
+                  <span class="c-city">ZURICH</span>
+                  <span class="c-val" id="clockZur">10:42 CET</span>
+                </div>
+                <div class="clock-item">
+                  <span class="c-city">NEW YORK</span>
+                  <span class="c-val" id="clockNyc">04:42 EST</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="footer-col">
+              <div class="col-title">// SITEMAP</div>
+              <ul class="footer-links">
+                <li><a href="#hero" class="f-link">Overview</a></li>
+                <li><a href="#works" class="f-link">Masterworks</a></li>
+                <li><a href="#about" class="f-link">Manifesto</a></li>
+                <li><a href="#process" class="f-link">Protocol</a></li>
+                <li><a href="#services" class="f-link">Capabilities</a></li>
+                <li><a href="#metrics" class="f-link">Impact Metrics</a></li>
+              </ul>
+            </div>
+
+            <div class="footer-col">
+              <div class="col-title">// SOCIAL ARCHIVES</div>
+              <ul class="footer-links">
+                <li><a href="https://x.com" target="_blank" rel="noopener" class="f-link">Twitter / X ↗</a></li>
+                <li><a href="https://instagram.com" target="_blank" rel="noopener" class="f-link">Instagram ↗</a></li>
+                <li><a href="https://awwwards.com" target="_blank" rel="noopener" class="f-link">Awwwards ↗</a></li>
+                <li><a href="https://github.com" target="_blank" rel="noopener" class="f-link">GitHub ↗</a></li>
+                <li><a href="https://linkedin.com" target="_blank" rel="noopener" class="f-link">LinkedIn ↗</a></li>
+              </ul>
+            </div>
+
+            <div class="footer-col">
+              <div class="col-title">// STUDIO HUBS</div>
+              <div class="hub-info">
+                <div class="hub-entry">
+                  <strong>TOKYO HQ</strong>
+                  <p>Minami-Aoyama, Minato-ku, Level 14</p>
+                </div>
+                <div class="hub-entry">
+                  <strong>ZURICH LAB</strong>
+                  <p>Gotthardstrasse 26, Enge</p>
+                </div>
+                <div class="hub-entry">
+                  <strong>NYC ATELIER</strong>
+                  <p>530 W 25th St, Chelsea Arts</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Footer Bottom Bar -->
+          <div class="footer-bottom-bar">
+            <div class="copyright">
+              © 2026 AETHERIA SPATIAL LABS INC. ALL RIGHTS RESERVED.
+            </div>
+
+            <div class="tech-stack-badges">
+              <span>POWERED BY GSAP 3</span>
+              <span>•</span>
+              <span>LENIS SCROLL</span>
+              <span>•</span>
+              <span>GPU ENGINE</span>
+            </div>
+
+            <button class="back-to-top magnetic-target" id="backToTopBtn" aria-label="Back to Top" data-cursor="TOP">
+              <span>BACK TO SUMMIT</span>
+              <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M8 13V3M8 3L3 8M8 3L13 8" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </div>
+
+        </div>
+      </footer>
+
+    </div>
+  </main>
+
+  <!-- Video Modal Showcase Overlay -->
+  <div class="video-modal" id="videoModal" aria-hidden="true" role="dialog">
+    <div class="video-modal-backdrop" id="videoModalClose"></div>
+    <div class="video-modal-container">
+      <button class="modal-close-btn magnetic-target" id="modalCloseBtn" aria-label="Close Modal" data-cursor="hover">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+      <div class="modal-video-wrapper">
+        <div class="modal-placeholder-video">
+          <div class="video-ambient-mesh"></div>
+          <div class="reel-content">
+            <span class="reel-tag">✦ AETHERIA 2026 MOTION REEL</span>
+            <h3 class="reel-title">Cinematic Dimension Engine</h3>
+            <p class="reel-desc">4K Ultra HD • Spatial Audio • 120 FPS High-Fidelity Rendering</p>
+            <div class="reel-audio-bar">
+              <span class="live-wave"></span><span class="live-wave"></span><span class="live-wave"></span><span class="live-wave"></span><span class="live-wave"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CDN Dependencies: GSAP 3.12.5, ScrollTrigger, TextPlugin, CustomEase, Lenis -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/TextPlugin.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/CustomEase.min.js"></script>
+  <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+
+  <!-- Application Logic -->
+  <script src="app.js"></script>
+</body>
+</html>
