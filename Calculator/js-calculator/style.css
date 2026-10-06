@@ -1,0 +1,940 @@
+/* ==========================================================================
+   AeroCalc Pro — Modern JavaScript Calculator Design System
+   Design: Premium Glassmorphism, Dynamic Theming, Fluid Typography
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. CSS Variables & Theme Tokens
+   -------------------------------------------------------------------------- */
+:root {
+  /* Dark Theme (Default) */
+  --bg-body: #080c14;
+  --bg-gradient: radial-gradient(circle at 50% 0%, #151d30 0%, #080c14 70%);
+  
+  --card-bg: rgba(18, 24, 38, 0.72);
+  --card-border: rgba(255, 255, 255, 0.08);
+  --card-border-highlight: rgba(255, 255, 255, 0.18);
+  --card-shadow: 0 30px 70px -15px rgba(0, 0, 0, 0.8),
+                 0 0 45px rgba(99, 102, 241, 0.12),
+                 inset 0 1px 0 rgba(255, 255, 255, 0.15);
+
+  --display-bg: rgba(10, 14, 23, 0.65);
+  --display-border: rgba(255, 255, 255, 0.05);
+  --display-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.5);
+
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --text-brand: #818cf8;
+
+  --btn-num-bg: rgba(30, 41, 59, 0.55);
+  --btn-num-hover: rgba(51, 65, 85, 0.85);
+  --btn-num-border: rgba(255, 255, 255, 0.06);
+  --btn-num-text: #f1f5f9;
+
+  --btn-action-bg: rgba(51, 65, 85, 0.45);
+  --btn-action-hover: rgba(71, 85, 105, 0.8);
+  --btn-action-border: rgba(56, 189, 248, 0.15);
+  --btn-action-text: #38bdf8;
+
+  --btn-op-bg: rgba(99, 102, 241, 0.16);
+  --btn-op-hover: rgba(99, 102, 241, 0.32);
+  --btn-op-border: rgba(129, 140, 248, 0.25);
+  --btn-op-text: #a5b4fc;
+  --btn-op-active-glow: rgba(99, 102, 241, 0.4);
+
+  --btn-equals-bg: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #d946ef 100%);
+  --btn-equals-hover: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #c026d3 100%);
+  --btn-equals-border: rgba(255, 255, 255, 0.25);
+  --btn-equals-text: #ffffff;
+  --btn-equals-shadow: 0 10px 25px -4px rgba(99, 102, 241, 0.55);
+
+  --history-panel-bg: rgba(13, 19, 33, 0.88);
+  --history-item-bg: rgba(30, 41, 59, 0.45);
+  --history-item-hover: rgba(51, 65, 85, 0.65);
+  --history-item-border: rgba(255, 255, 255, 0.06);
+
+  --modal-overlay-bg: rgba(0, 0, 0, 0.7);
+  --modal-bg: rgba(18, 24, 38, 0.95);
+  --modal-border: rgba(255, 255, 255, 0.1);
+
+  --kbd-bg: rgba(255, 255, 255, 0.1);
+  --kbd-border: rgba(255, 255, 255, 0.15);
+  --kbd-text: #e2e8f0;
+
+  --glow-color-1: rgba(99, 102, 241, 0.25);
+  --glow-color-2: rgba(217, 70, 239, 0.18);
+  --glow-color-3: rgba(56, 189, 248, 0.15);
+
+  --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-bounce: 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Light Theme */
+[data-theme="light"] {
+  --bg-body: #f1f5f9;
+  --bg-gradient: radial-gradient(circle at 50% 0%, #e2e8f0 0%, #f1f5f9 70%);
+
+  --card-bg: rgba(255, 255, 255, 0.8);
+  --card-border: rgba(255, 255, 255, 0.85);
+  --card-border-highlight: rgba(255, 255, 255, 1);
+  --card-shadow: 0 30px 60px -15px rgba(100, 116, 139, 0.25),
+                 0 0 35px rgba(99, 102, 241, 0.08),
+                 inset 0 1px 0 rgba(255, 255, 255, 0.9);
+
+  --display-bg: rgba(248, 250, 252, 0.85);
+  --display-border: rgba(226, 232, 240, 0.8);
+  --display-shadow: inset 0 2px 4px rgba(148, 163, 184, 0.15);
+
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  --text-brand: #4f46e5;
+
+  --btn-num-bg: rgba(255, 255, 255, 0.95);
+  --btn-num-hover: #ffffff;
+  --btn-num-border: rgba(226, 232, 240, 0.9);
+  --btn-num-text: #1e293b;
+
+  --btn-action-bg: rgba(224, 231, 255, 0.65);
+  --btn-action-hover: rgba(224, 231, 255, 0.95);
+  --btn-action-border: rgba(99, 102, 241, 0.18);
+  --btn-action-text: #2563eb;
+
+  --btn-op-bg: rgba(243, 232, 255, 0.8);
+  --btn-op-hover: rgba(233, 213, 255, 1);
+  --btn-op-border: rgba(168, 85, 247, 0.2);
+  --btn-op-text: #7c3aed;
+  --btn-op-active-glow: rgba(168, 85, 247, 0.35);
+
+  --btn-equals-bg: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+  --btn-equals-hover: linear-gradient(135deg, #4338ca 0%, #6d28d9 100%);
+  --btn-equals-border: rgba(255, 255, 255, 0.4);
+  --btn-equals-text: #ffffff;
+  --btn-equals-shadow: 0 10px 25px -4px rgba(79, 70, 229, 0.4);
+
+  --history-panel-bg: rgba(255, 255, 255, 0.95);
+  --history-item-bg: rgba(241, 245, 249, 0.8);
+  --history-item-hover: rgba(226, 232, 240, 0.95);
+  --history-item-border: rgba(226, 232, 240, 0.8);
+
+  --modal-overlay-bg: rgba(15, 23, 42, 0.4);
+  --modal-bg: rgba(255, 255, 255, 0.96);
+  --modal-border: rgba(226, 232, 240, 0.9);
+
+  --kbd-bg: rgba(15, 23, 42, 0.08);
+  --kbd-border: rgba(15, 23, 42, 0.12);
+  --kbd-text: #1e293b;
+
+  --glow-color-1: rgba(99, 102, 241, 0.12);
+  --glow-color-2: rgba(217, 70, 239, 0.09);
+  --glow-color-3: rgba(56, 189, 248, 0.1);
+}
+
+/* --------------------------------------------------------------------------
+   2. Reset & Global Base
+   -------------------------------------------------------------------------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: var(--bg-body);
+  background-image: var(--bg-gradient);
+  color: var(--text-primary);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  overflow-x: hidden;
+  position: relative;
+  transition: background 0.4s ease, color 0.4s ease;
+}
+
+/* Accessible focus styles */
+button:focus-visible, [tabindex="0"]:focus-visible {
+  outline: 2px solid var(--text-brand);
+  outline-offset: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   3. Ambient Decorative Glow Blobs
+   -------------------------------------------------------------------------- */
+.ambient-glow {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(100px);
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.7;
+  transition: background 0.5s ease;
+}
+
+.glow-1 {
+  width: 480px;
+  height: 480px;
+  background: var(--glow-color-1);
+  top: -100px;
+  left: 20%;
+  animation: floatOrb 18s ease-in-out infinite alternate;
+}
+
+.glow-2 {
+  width: 420px;
+  height: 420px;
+  background: var(--glow-color-2);
+  bottom: -80px;
+  right: 15%;
+  animation: floatOrb 14s ease-in-out infinite alternate-reverse;
+}
+
+.glow-3 {
+  width: 320px;
+  height: 320px;
+  background: var(--glow-color-3);
+  top: 40%;
+  left: 10%;
+  animation: floatOrb 22s ease-in-out infinite alternate;
+}
+
+@keyframes floatOrb {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(40px, 30px) scale(1.08); }
+  100% { transform: translate(-30px, 50px) scale(0.95); }
+}
+
+/* --------------------------------------------------------------------------
+   4. Calculator Container Layout
+   -------------------------------------------------------------------------- */
+.calculator-container {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 410px;
+}
+
+.calculator-card {
+  width: 100%;
+  background: var(--card-bg);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border: 1px solid var(--card-border);
+  border-radius: 32px;
+  box-shadow: var(--card-shadow);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+}
+
+/* --------------------------------------------------------------------------
+   5. Calculator Header
+   -------------------------------------------------------------------------- */
+.calculator-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 0.25rem;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  user-select: none;
+}
+
+.brand-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+}
+
+.brand-name {
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+
+.brand-tag {
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  padding: 0.15rem 0.4rem;
+  border-radius: 6px;
+  background: rgba(99, 102, 241, 0.2);
+  color: var(--text-brand);
+  border: 1px solid rgba(99, 102, 241, 0.3);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.icon-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  background: var(--btn-num-bg);
+  border: 1px solid var(--btn-num-border);
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.icon-btn:hover {
+  background: var(--btn-num-hover);
+  color: var(--text-primary);
+  transform: translateY(-1px);
+}
+
+.icon-btn:active {
+  transform: translateY(1px) scale(0.95);
+}
+
+.icon-btn.relative {
+  position: relative;
+}
+
+.badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  min-width: 17px;
+  height: 17px;
+  padding: 0 4px;
+  border-radius: 9px;
+  background: #6366f1;
+  color: #ffffff;
+  font-size: 0.65rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(99, 102, 241, 0.6);
+  transition: transform var(--transition-bounce);
+}
+
+/* --------------------------------------------------------------------------
+   6. Display Section
+   -------------------------------------------------------------------------- */
+.calculator-display {
+  background: var(--display-bg);
+  border: 1px solid var(--display-border);
+  border-radius: 24px;
+  box-shadow: var(--display-shadow);
+  padding: 1.15rem 1.35rem;
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  position: relative;
+  overflow: hidden;
+  transition: border-color var(--transition-normal);
+}
+
+.calculator-display:hover {
+  border-color: rgba(99, 102, 241, 0.25);
+}
+
+.display-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  min-height: 24px;
+}
+
+.mode-indicator {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0.15rem 0.45rem;
+  border-radius: 6px;
+  background: rgba(148, 163, 184, 0.15);
+  color: var(--text-muted);
+}
+
+.display-expression {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-align: right;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  letter-spacing: -0.02em;
+  transition: opacity var(--transition-fast);
+}
+
+.copy-action-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+}
+
+.copy-action-btn:hover {
+  color: var(--text-brand);
+  background: rgba(99, 102, 241, 0.1);
+  transform: scale(1.1);
+}
+
+.display-main {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  overflow: hidden;
+  margin-top: 0.4rem;
+}
+
+.display-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 2.85rem;
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  color: var(--text-primary);
+  text-align: right;
+  line-height: 1.1;
+  word-break: break-all;
+  white-space: nowrap;
+  max-width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+  font-variant-numeric: tabular-nums;
+  transition: font-size 0.2s ease, color var(--transition-fast);
+}
+
+.display-value::-webkit-scrollbar {
+  display: none;
+}
+
+/* Reduced size for long numbers */
+.display-value.compact-text {
+  font-size: 2.1rem;
+}
+
+.display-value.compact-small {
+  font-size: 1.6rem;
+}
+
+/* Error style */
+.display-value.error-state {
+  color: #f43f5e;
+  font-size: 1.8rem;
+  font-weight: 500;
+}
+
+/* --------------------------------------------------------------------------
+   7. Keypad Grid Layout
+   -------------------------------------------------------------------------- */
+.calculator-keypad {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+}
+
+/* Base Keypad Button */
+.btn {
+  position: relative;
+  height: 60px;
+  border-radius: 20px;
+  border: 1px solid var(--btn-num-border);
+  font-family: inherit;
+  font-size: 1.35rem;
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+  transition: transform var(--transition-fast), 
+              background var(--transition-fast), 
+              box-shadow var(--transition-fast),
+              border-color var(--transition-fast);
+  outline: none;
+}
+
+.btn-subtext {
+  font-size: 0.6rem;
+  font-weight: 500;
+  opacity: 0.55;
+  margin-top: -3px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Number Buttons */
+.btn-num {
+  background: var(--btn-num-bg);
+  color: var(--btn-num-text);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.btn-num:hover {
+  background: var(--btn-num-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.btn-num:active, .btn-num.btn-pressed {
+  transform: translateY(2px) scale(0.95);
+  box-shadow: none;
+}
+
+/* Action Buttons (AC, DEL, %) */
+.btn-action {
+  background: var(--btn-action-bg);
+  color: var(--btn-action-text);
+  border-color: var(--btn-action-border);
+  font-weight: 700;
+  font-size: 1.15rem;
+}
+
+.btn-action:hover {
+  background: var(--btn-action-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(56, 189, 248, 0.2);
+}
+
+.btn-action:active, .btn-action.btn-pressed {
+  transform: translateY(2px) scale(0.95);
+}
+
+#btn-clear {
+  color: #f43f5e;
+  border-color: rgba(244, 63, 94, 0.2);
+}
+
+#btn-clear:hover {
+  background: rgba(244, 63, 94, 0.15);
+  box-shadow: 0 4px 14px rgba(244, 63, 94, 0.25);
+}
+
+/* Operator Buttons (+, -, ×, ÷) */
+.btn-operator {
+  background: var(--btn-op-bg);
+  color: var(--btn-op-text);
+  border-color: var(--btn-op-border);
+  font-size: 1.55rem;
+  font-weight: 700;
+}
+
+.btn-operator:hover {
+  background: var(--btn-op-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px var(--btn-op-active-glow);
+}
+
+.btn-operator:active, .btn-operator.btn-pressed {
+  transform: translateY(2px) scale(0.95);
+}
+
+/* Active Operator Highlight when waiting for next operand */
+.btn-operator.is-active-operator {
+  background: var(--btn-op-hover);
+  border-color: #818cf8;
+  box-shadow: 0 0 16px var(--btn-op-active-glow), inset 0 0 8px rgba(99, 102, 241, 0.3);
+}
+
+/* Equals Button */
+.btn-equals {
+  background: var(--btn-equals-bg);
+  color: var(--btn-equals-text);
+  border: 1px solid var(--btn-equals-border);
+  box-shadow: var(--btn-equals-shadow);
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.btn-equals:hover {
+  background: var(--btn-equals-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px -2px rgba(99, 102, 241, 0.7);
+}
+
+.btn-equals:active, .btn-equals.btn-pressed {
+  transform: translateY(2px) scale(0.95);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+}
+
+/* --------------------------------------------------------------------------
+   8. Calculator Card Footer
+   -------------------------------------------------------------------------- */
+.calculator-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  user-select: none;
+  padding-top: 0.25rem;
+}
+
+.dot-separator {
+  opacity: 0.5;
+}
+
+/* --------------------------------------------------------------------------
+   9. Slide-out History Panel
+   -------------------------------------------------------------------------- */
+.history-panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--history-panel-bg);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border-radius: 32px;
+  border: 1px solid var(--card-border-highlight);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  z-index: 10;
+  box-shadow: var(--card-shadow);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(20px) scale(0.98);
+  transition: all var(--transition-normal);
+  pointer-events: none;
+}
+
+.history-panel.is-open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0) scale(1);
+  pointer-events: auto;
+}
+
+.history-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--display-border);
+}
+
+.history-panel-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.history-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.text-action-btn {
+  background: transparent;
+  border: 1px solid var(--display-border);
+  color: #f43f5e;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.35rem 0.65rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.text-action-btn:hover {
+  background: rgba(244, 63, 94, 0.15);
+  border-color: rgba(244, 63, 94, 0.3);
+}
+
+.icon-btn-sm {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  border: 1px solid var(--display-border);
+  background: var(--btn-num-bg);
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all var(--transition-fast);
+}
+
+.icon-btn-sm:hover {
+  color: var(--text-primary);
+  background: var(--btn-num-hover);
+}
+
+.history-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  scrollbar-width: thin;
+  scrollbar-color: var(--text-muted) transparent;
+}
+
+.history-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 100%;
+  color: var(--text-muted);
+  gap: 0.5rem;
+}
+
+.history-empty p {
+  font-weight: 600;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+.history-empty-sub {
+  font-size: 0.8rem;
+  max-width: 200px;
+  line-height: 1.4;
+}
+
+/* History Item Card */
+.history-item {
+  background: var(--history-item-bg);
+  border: 1px solid var(--history-item-border);
+  border-radius: 14px;
+  padding: 0.85rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  cursor: pointer;
+  text-align: right;
+  transition: all var(--transition-fast);
+}
+
+.history-item:hover {
+  background: var(--history-item-hover);
+  transform: translateY(-2px);
+  border-color: rgba(99, 102, 241, 0.3);
+}
+
+.history-item-expression {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  word-break: break-all;
+}
+
+.history-item-result {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-brand);
+}
+
+/* --------------------------------------------------------------------------
+   10. Keyboard Shortcuts Modal
+   -------------------------------------------------------------------------- */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--modal-overlay-bg);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  z-index: 100;
+  opacity: 1;
+  visibility: visible;
+  transition: all var(--transition-normal);
+}
+
+.modal-overlay.hide {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.modal-box {
+  background: var(--modal-bg);
+  border: 1px solid var(--modal-border);
+  border-radius: 28px;
+  width: 100%;
+  max-width: 380px;
+  box-shadow: var(--card-shadow);
+  padding: 1.5rem;
+  transform: scale(1);
+  transition: transform var(--transition-bounce);
+}
+
+.modal-overlay.hide .modal-box {
+  transform: scale(0.92);
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--display-border);
+}
+
+.modal-header h3 {
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.shortcuts-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.shortcuts-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+}
+
+kbd {
+  font-family: 'JetBrains Mono', monospace;
+  background: var(--kbd-bg);
+  border: 1px solid var(--kbd-border);
+  color: var(--kbd-text);
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* --------------------------------------------------------------------------
+   11. Toast Notification
+   -------------------------------------------------------------------------- */
+.toast {
+  position: fixed;
+  top: 1.5rem;
+  background: rgba(16, 185, 129, 0.95);
+  color: #ffffff;
+  padding: 0.65rem 1.25rem;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 10px 25px -4px rgba(16, 185, 129, 0.5);
+  z-index: 200;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: all var(--transition-bounce);
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.toast.toast-error {
+  background: rgba(244, 63, 94, 0.95);
+  box-shadow: 0 10px 25px -4px rgba(244, 63, 94, 0.5);
+}
+
+/* Utility Class */
+.hide {
+  display: none !important;
+}
+
+/* --------------------------------------------------------------------------
+   12. Responsive Adjustments
+   -------------------------------------------------------------------------- */
+@media (max-width: 480px) {
+  body {
+    padding: 0.75rem;
+  }
+
+  .calculator-card {
+    border-radius: 26px;
+    padding: 1.15rem;
+    gap: 1rem;
+  }
+
+  .calculator-display {
+    padding: 1rem;
+    min-height: 105px;
+  }
+
+  .display-value {
+    font-size: 2.35rem;
+  }
+
+  .btn {
+    height: 54px;
+    border-radius: 16px;
+    font-size: 1.25rem;
+  }
+
+  .btn-subtext {
+    display: none;
+  }
+}
+
+@media (max-height: 680px) {
+  .btn {
+    height: 48px;
+  }
+  .calculator-card {
+    gap: 0.75rem;
+    padding: 1rem;
+  }
+  .calculator-display {
+    min-height: 90px;
+    padding: 0.75rem 1rem;
+  }
+}
